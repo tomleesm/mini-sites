@@ -8,7 +8,7 @@
             <h1>作者清單</h1>
                 @foreach ($users as $user)
                     <p>
-                        <a href="{{ route('users.posts.index', [ 'user' => $user->id ]) }}">{{ $user->name }}</a>
+                        <a href="{{ route('users.posts.index', [ 'user' => $user->id ]) }}">{{ $user->name }} - {{ $user->email }}</a>
                     </p>
                 @endforeach
             @else

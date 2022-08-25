@@ -11,7 +11,7 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $users = DB::table('users')->select('id', 'name')->paginate(self::PER_PAGE);
+        $users = DB::table('users')->select('id', 'name', 'email')->paginate(self::PER_PAGE);
 
         $request->session()->put('usersCurrentPage', $users->currentPage());
         $request->session()->put('pageName', $users->getPageName());
