@@ -24,4 +24,14 @@ class UserController extends Controller
                 'user' => $user,
             ]);
     }
+
+    public function post($userId, $postId)
+    {
+        $post = DB::table('posts')->where('id', $postId)->first();
+
+        return view('users.post',
+            [
+                'post' => $post
+            ]);
+    }
 }
