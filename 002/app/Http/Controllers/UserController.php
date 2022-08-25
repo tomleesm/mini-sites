@@ -9,9 +9,13 @@ class UserController extends Controller
 {
     const PER_PAGE = 25;
 
-    public function index()
+    public function index(Request $request)
     {
-        $users = DB::table('users')->select('id', 'name')->get();
+        $users = DB::table('users')->select('id', 'name')->paginate(self::PER_PAGE);
+
+        $request->session()->put('currentPage', $users->currentPage());
+        $request->session()->put('pageName', $users->getPageName());
+
         return view('users.index', [ 'users' => $users ]);
     }
 
