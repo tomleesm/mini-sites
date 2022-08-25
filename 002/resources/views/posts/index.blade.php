@@ -19,7 +19,7 @@
 
             @foreach($posts as $post)
                 <p>
-                    {{ $post->title }} |
+                    <a href="{{ route('posts.show', [ 'post' => $post->id ]) }}">{{ $post->title }}</a> |
                     <a href="{{ route('posts.edit', [ 'post' => $post->id ]) }}">修改</a> |
                     <a href="#delete">刪除</a>
                 </p>
