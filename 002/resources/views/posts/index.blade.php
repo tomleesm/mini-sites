@@ -16,6 +16,8 @@
                 </p>
             @endforeach
 
+            {{ $posts->links() }}
+
             <form method="post" action="" id="delete-form">
                 @csrf
                 @method('DELETE')

@@ -19,7 +19,7 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        $posts = DB::table('posts')->where('user_id', $request->user()->id)->get();
+        $posts = DB::table('posts')->where('user_id', $request->user()->id)->paginate(25);
         return view('posts.index', [ 'posts' => $posts ]);
     }
 
