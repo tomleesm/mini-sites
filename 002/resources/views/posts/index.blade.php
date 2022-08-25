@@ -5,15 +5,15 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <p>
-                <a href="{{ route('posts.create') }}">新增文章</a>
+                <a href="{{ route('posts.create') }}" class="btn btn-primary">新增文章</a>
             </p>
 
             @foreach($posts as $post)
-                <p>
-                    <a href="{{ route('posts.show', [ 'post' => $post->id ]) }}">{{ $post->title }}</a> |
-                    <a href="{{ route('posts.edit', [ 'post' => $post->id ]) }}">修改</a> |
-                    <a href="#delete" data-post-id="{{ $post->id }}">刪除</a>
-                </p>
+                <div class="clearfix m-1">
+                    <a href="{{ route('posts.show', [ 'post' => $post->id ]) }}" class="float-left">{{ $post->title }}</a>
+                    <a href="#delete" data-post-id="{{ $post->id }}" class="float-right ml-2 btn btn-outline-danger">刪除</a>
+                    <a href="{{ route('posts.edit', [ 'post' => $post->id ]) }}" class="float-right ml-1 btn btn-outline-secondary">修改</a>
+                </div>
             @endforeach
 
             {{ $posts->links() }}

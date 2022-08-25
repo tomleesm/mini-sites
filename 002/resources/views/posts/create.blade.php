@@ -6,26 +6,37 @@
         <div class="col-md-8">
 
             @if($errors->any())
-            <ul>
                 @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
+                    <div class="alert alert-danger" role="alert">{{ $error }}</div>
                 @endforeach
-            </ul>
             @endif
 
             <form method="post" action="{{ route('posts.store') }}">
                 @csrf
-                <p>
-                    <input type="text" name="title" placeholder="文章標題" required autofocus>
-                </p>
-                <p>
-                    <textarea name="content" placeholder="文章內容"></textarea>
-                </p>
+                <div class="form-group">
+                    <label for="title">標題</label>
+                    <input type="text"
+                           name="title"
+                           placeholder="文章標題"
+                           class="form-control"
+                           id="title"
+                           aria-describedby="title"
+                           required autofocus>
+                </div>
 
-                <p>
-                    <button type="submit">儲存</button>
-                    <a href="{{ route('posts.index', [ session('pageName') => session('currentPage') ]) }}">取消</a>
-                </p>
+                <div class="form-group">
+                    <label for="content">標題</label>
+                    <textarea name="content"
+                              placeholder="文章內容"
+                              class="form-control"
+                              id="content"
+                              aria-describedby="content"></textarea>
+                </div>
+
+                <div class="form-group clearfix">
+                    <button type="submit" class="btn btn-primary float-left">儲存</button>
+                    <a href="{{ route('posts.index', [ session('pageName') => session('currentPage') ]) }}" class="btn btn-outline-secondary float-right">取消</a>
+                </div>
             </form>
         </div>
     </div>
