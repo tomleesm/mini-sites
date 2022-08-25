@@ -14,21 +14,25 @@ class DatabaseSeeder extends Seeder
         $faker = \Faker\Factory::create();
         $hash = bcrypt('12345678');
 
-        $userId = DB::table('users')->insertGetId([
-            'name' => $faker->name(),
-            'email' => $faker->unique()->email(),
-            'password' => $hash,
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
-
+        $userIdList = [];
         for($i = 0; $i < 105; $i++) {
+            $userId = DB::table('users')->insertGetId([
+                'name' => $faker->name(),
+                'email' => $faker->unique()->email(),
+                'password' => $hash,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+            array_push($userIdList, $userId);
+        }
+
+        for($i = 0; $i < 1234; $i++) {
             DB::table('posts')->insert([
                 'title' => $faker->sentence(),
                 'content' => $faker->text(),
                 'created_at' => now(),
                 'updated_at' => now(),
-                'user_id' => $userId
+                'user_id' => $userIdList[$faker->numberBetween(0, 104)]
             ]);
         }
     }
