@@ -7,13 +7,13 @@ use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
-    const PER_PAGE = 25;
+    const PER_PAGE = 10;
 
     public function index(Request $request)
     {
         $users = DB::table('users')->select('id', 'name')->paginate(self::PER_PAGE);
 
-        $request->session()->put('currentPage', $users->currentPage());
+        $request->session()->put('usersCurrentPage', $users->currentPage());
         $request->session()->put('pageName', $users->getPageName());
 
         return view('users.index', [ 'users' => $users ]);
@@ -24,7 +24,7 @@ class UserController extends Controller
         $posts = DB::table('posts')->where('user_id', $userId)->select('id', 'title')->paginate(self::PER_PAGE);
         $user = DB::table('users')->where('id', $userId)->select('id', 'name')->first();
 
-        $request->session()->put('currentPage', $posts->currentPage());
+        $request->session()->put('postsCurrentPage', $posts->currentPage());
         $request->session()->put('pageName', $posts->getPageName());
 
         return view('users.posts',

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Log;
 class PostController extends Controller
 {
     // 分頁每一頁有幾筆
-    const PER_PAGE = 25;
+    const PER_PAGE = 10;
 
     public function __construct()
     {
