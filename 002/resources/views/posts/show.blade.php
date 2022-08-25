@@ -13,6 +13,11 @@
                 <a href="#delete">刪除</a>
             </p>
 
+            <form method="post" action="{{ route('posts.destroy', [ 'post' => $post->id ]) }}" id="delete-form">
+                @csrf
+                @method('DELETE')
+            </form>
+
             <h1>{{ $post->title }}</h1>
             <article>
                 {{ $post->content }}
@@ -22,4 +27,14 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('javascript')
+        document.querySelector('a[href="#delete"]').addEventListener('click', function() {
+            if(confirm(' 刪除事項？') == true) {
+                event.preventDefault();
+
+                document.getElementById('delete-form').submit();
+            }
+        });
 @endsection

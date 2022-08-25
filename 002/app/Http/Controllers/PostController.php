@@ -147,6 +147,21 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            DB::beginTransaction();
+            DB::table('posts')->where('id', $id)->delete();
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            $message = sprintf('%s, line: %d, message: %s',
+                               __FILE__,
+                               __LINE__,
+                               $e->getMessage());
+            # 通常在 storage/logs/laravel.log
+            Log::error($message);
+        }
+
+        return redirect()->route('posts.index');
     }
 }
