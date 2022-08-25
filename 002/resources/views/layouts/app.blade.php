@@ -77,4 +77,7 @@
         </main>
     </div>
 </body>
+    <script>
+        @yield('javascript', '')
+    </script>
 </html>
