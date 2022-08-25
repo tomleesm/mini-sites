@@ -5,6 +5,9 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+
+            <p><a href="{{ route('posts.index') }}">回到文章清單</a></p>
+
             <p>
                 <a href="{{ route('posts.edit', [ 'post' => $post->id ]) }}">修改</a> |
                 <a href="#delete">刪除</a>
