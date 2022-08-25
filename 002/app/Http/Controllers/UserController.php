@@ -26,17 +26,19 @@ class UserController extends Controller
         return view('users.posts',
             [
                 'posts' => $posts,
-                'user' => $user,
+                'user' => $user
             ]);
     }
 
     public function post($userId, $postId)
     {
         $post = DB::table('posts')->where('id', $postId)->first();
+        $user = DB::table('users')->where('id', $userId)->select('id', 'name')->first();
 
         return view('users.post',
             [
-                'post' => $post
+                'post' => $post,
+                'user' => $user
             ]);
     }
 }

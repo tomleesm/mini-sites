@@ -4,6 +4,10 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <p>
+                <a href="{{ route('users.posts.index', [ 'user' => $user->id, 'post' => $post->id ]) }}">回到 {{ $user->name }} 的文章清單</a>
+            </p>
+
             <h1>{{ $post->title }}</h1>
             <article>
                 {{ $post->content }}

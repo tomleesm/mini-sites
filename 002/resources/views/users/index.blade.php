@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             @if(count($users) > 0)
-            <h1>使用者清單</h1>
+            <h1>作者清單</h1>
                 <ul>
                 @foreach ($users as $user)
                     <li>
