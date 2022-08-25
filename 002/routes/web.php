@@ -15,11 +15,10 @@ Route::get('/', 'UserController@index')->name('users.index');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-
 // 後台
 Route::resource('posts', 'PostController');
 // 前台
-Route::get('users/{user}/posts')->name('users.posts.index');
+Route::get('users/{user}/posts', 'UserController@posts')->name('users.posts.index');
+Route::get('users/{user}/posts/{post}', 'UserController@post')->name('users.posts.show');
 Route::get('users/{user}/posts/{post}')->name('users.posts.show');
 Route::resource('users.posts.comments', 'CommentController');
