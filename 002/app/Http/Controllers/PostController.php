@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
 {
+    // 分頁每一頁有幾筆
+    const PER_PAGE = 25;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -19,7 +22,7 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        $posts = DB::table('posts')->where('user_id', $request->user()->id)->paginate(25);
+        $posts = DB::table('posts')->where('user_id', $request->user()->id)->paginate(self::PER_PAGE);
         $request->session()->put('currentPage', $posts->currentPage());
         $request->session()->put('pageName', $posts->getPageName());
 
@@ -166,9 +169,9 @@ class PostController extends Controller
         }
 
         // 刪除後的最後一頁不等於currentPage，則 currentPage 減掉 1
-        // 刪除後的總筆數除以每一頁25筆，餘數爲 0
+        // 刪除後的總筆數除以每一頁的筆筆，餘數爲 0
         $currentPage = session('currentPage');
-        if ( ( DB::table('posts')->count() % 25 ) === 0 ) {
+        if ( ( DB::table('posts')->count() % self::PER_PAGE ) === 0 ) {
             $currentPage--;
             session([ 'currentPage' => $currentPage ]);
         }
