@@ -67,7 +67,7 @@ class PostController extends Controller
             Log::error($message);
         }
 
-        return redirect()->route('home');
+        return redirect()->route('posts.index');
     }
 
     /**

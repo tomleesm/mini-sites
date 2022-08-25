@@ -15,7 +15,7 @@
 
                 <p>
                     <button type="submit">儲存</button>
-                    <a href="{{ route('home') }}">取消</a>
+                    <a href="{{ route('posts.index') }}">取消</a>
                 </p>
             </form>
         </div>
