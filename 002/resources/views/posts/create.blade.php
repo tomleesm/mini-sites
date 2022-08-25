@@ -24,7 +24,7 @@
 
                 <p>
                     <button type="submit">儲存</button>
-                    <a href="{{ route('posts.index') }}">取消</a>
+                    <a href="{{ route('posts.index', [ session('pageName') => session('currentPage') ]) }}">取消</a>
                 </p>
             </form>
         </div>

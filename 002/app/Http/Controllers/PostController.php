@@ -20,6 +20,9 @@ class PostController extends Controller
     public function index(Request $request)
     {
         $posts = DB::table('posts')->where('user_id', $request->user()->id)->paginate(25);
+        $request->session()->put('currentPage', $posts->currentPage());
+        $request->session()->put('pageName', $posts->getPageName());
+
         return view('posts.index', [ 'posts' => $posts ]);
     }
 
@@ -162,6 +165,16 @@ class PostController extends Controller
             Log::error($message);
         }
 
-        return redirect()->route('posts.index');
+        // 刪除後的最後一頁不等於currentPage，則 currentPage 減掉 1
+        // 刪除後的總筆數除以每一頁25筆，餘數爲 0
+        $currentPage = session('currentPage');
+        if ( ( DB::table('posts')->count() % 25 ) === 0 ) {
+            $currentPage--;
+            session([ 'currentPage' => $currentPage ]);
+        }
+
+        return redirect()->route('posts.index', [
+            session('pageName') => $currentPage
+        ]);
     }
 }
