@@ -48,7 +48,7 @@ class PostController extends Controller
 
         try {
             DB::beginTransaction();
-            DB::table('posts')->insert([
+            $id = DB::table('posts')->insertGetId([
                 'title' => $request->input('title'),
                 'content' => $request->input('content'),
                 'user_id' => $request->user()->id,
@@ -67,7 +67,7 @@ class PostController extends Controller
             Log::error($message);
         }
 
-        return redirect()->route('posts.index');
+        return redirect()->route('posts.show', [ 'post' => $id ]);
     }
 
     /**
