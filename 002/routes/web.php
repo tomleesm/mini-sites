@@ -11,13 +11,15 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'UserController@index')->name('users.index');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+// 後台
 Route::resource('posts', 'PostController');
-Route::resource('posts.comments', 'CommentController');
+// 前台
+Route::get('users/{user}/posts')->name('users.posts.index');
+Route::get('users/{user}/posts/{post}')->name('users.posts.show');
+Route::resource('users.posts.comments', 'CommentController');

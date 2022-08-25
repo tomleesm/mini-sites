@@ -8,14 +8,19 @@ use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $posts = DB::table('posts')->where('user_id', $request->user()->id)->get();
+        return view('posts.index', [ 'posts' => $posts ]);
     }
 
     /**
