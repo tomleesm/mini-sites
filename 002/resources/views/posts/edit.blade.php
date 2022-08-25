@@ -13,13 +13,14 @@
             </ul>
             @endif
 
-            <form method="post" action="{{ route('posts.store') }}">
+            <form method="post" action="{{ route('posts.update', [ 'post' => $post->id ]) }}">
                 @csrf
+                @method('PUT')
                 <p>
-                    <input type="text" name="title" placeholder="文章標題" required autofocus>
+                    <input type="text" name="title" value="{{ old('title', $post->title)  }}" placeholder="文章標題" required autofocus>
                 </p>
                 <p>
-                    <textarea name="content" placeholder="文章內容"></textarea>
+                    <textarea name="content" placeholder="文章內容">{{ old('content', $post->content) }}</textarea>
                 </p>
 
                 <p>

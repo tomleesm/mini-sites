@@ -94,7 +94,12 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = DB::table('posts')->where('id', $id)->first();
+
+        return view('posts.edit',
+            [
+                'post' => $post
+            ]);
     }
 
     /**
@@ -106,7 +111,32 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'content' => 'nullable|string'
+        ]);
+
+        try {
+            DB::beginTransaction();
+            DB::table('posts')->where('id', $id)
+                              ->update([
+                                'title' => $request->input('title'),
+                                'content' => $request->input('content'),
+                                'updated_at' => now()
+                              ]);
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            $message = sprintf('%s, line: %d, message: %s',
+                               __FILE__,
+                               __LINE__,
+                               $e->getMessage());
+            # 通常在 storage/logs/laravel.log
+            Log::error($message);
+        }
+
+        return redirect()->route('posts.show', [ 'post' => $id ]);
     }
 
     /**
