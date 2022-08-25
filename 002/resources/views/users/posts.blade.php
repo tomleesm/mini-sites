@@ -10,5 +10,7 @@
             <a href="{{ route('users.posts.show', [ 'user' => $user->id, 'post' => $post->id ]) }}">{{ $post->title }}</a>
         </p>
     @endforeach
+
+    {{ $posts->links() }}
 </body>
 </html>
