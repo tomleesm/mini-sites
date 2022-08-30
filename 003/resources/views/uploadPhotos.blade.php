@@ -7,7 +7,7 @@
 <body>
     <form method="post" action="{{ route('photos.store') }}" enctype="multipart/form-data">
         @csrf
-        <input type="file" name="uploadPhotos" multiple>
+        <input type="file" name="uploadPhotos[]" multiple multiple accept="image/gif,image/jpeg,image/png">
         <button type="submit">上傳圖片</button>
     </form>
 </body>
