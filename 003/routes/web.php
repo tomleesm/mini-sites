@@ -11,4 +11,4 @@
 |
 */
 
-Route::view('/', 'uploadPhotos');
+Route::view('/', 'photos.upload');
