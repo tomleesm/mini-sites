@@ -5,8 +5,10 @@
     <title>003 相簿</title>
 </head>
 <body>
-   @foreach($thumbnails as $thumbnail)
-       <img src="{{ $thumbnail }}">
+   @foreach($images as $image)
+       <a data-fslightbox="gallery" href="{{ $image['origin'] }}">
+           <img src="{{ $image['thumbnail'] }}">
+       </a>
    @endforeach
 </body>
     <script src="{{ mix('/js/app.js') }}"></script>

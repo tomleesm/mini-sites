@@ -59,17 +59,28 @@ class PhotoController extends Controller
         # Storage::files('public/2022-09-01/3QcqQhejNOpvTJTZ/origin/')
         # return [ 'public/2022-09-01/3QcqQhejNOpvTJTZ/origin/abc.jpg' ]
         $storageThumbnails =  Storage::files($this->filePath . '/thumbnails');
+        $storageOrigin =  Storage::files($this->filePath . '/origin');
 
-        # 轉換成 public 路徑
-        $publicThumbnails = [];
-        foreach($storageThumbnails as $filename) {
-            # 把 'public/2022-09-01/3QcqQhejNOpvTJTZ/origin/abc.jpg'
-            # 轉成 '/storage/2022-09-01/3QcqQhejNOpvTJTZ/origin/abc.jpg'
-            $publicThumbnails[] = Storage::url($filename);
+        # 1. 轉換成 public 路徑
+        # 用 Storage::url() 把 'public/2022-09-01/3QcqQhejNOpvTJTZ/origin/abc.jpg'
+        # 轉成 '/storage/2022-09-01/3QcqQhejNOpvTJTZ/origin/abc.jpg'
+        # 2. 縮圖和原始圖片路徑合併到
+        # $images = [
+        #   0 => [
+        #     'thumbnail' => $publicThumbnails[0],
+        #     'origin' => $publicOrigin[0] ],
+        #   1 => ...
+        # ]
+        $images = [];
+        for($i = 0; $i < count($storageThumbnails); $i++ ) {
+            $images[$i] = [
+                'thumbnail' => Storage::url($storageThumbnails[$i]),
+                'origin' => Storage::url($storageOrigin[$i])
+            ];
         }
 
         return view('photos.show', [
-            'thumbnails' => $publicThumbnails,
+            'images' => $images,
         ]);
     }
 }
