@@ -15,7 +15,7 @@ class PhotoController extends Controller
     private $filePath;
 
     public function __construct() {
-        $this->filePath = sprintf('%s/%s/', today()->toDateString(), Str::random());
+        $this->filePath = sprintf('public/%s/%s/', today()->toDateString(), Str::random());
     }
 
     public function store(Request $request) {
