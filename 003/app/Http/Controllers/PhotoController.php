@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Log;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
+use Illuminate\Support\Facades\Storage;
+
 class PhotoController extends Controller
 {
     # 儲存檔案到類似 storage/app/2022-08-28/x9wyHUII5Jlsulnb/
@@ -52,5 +54,22 @@ class PhotoController extends Controller
         } catch (ProcessFailedException $exception) {
             Log::error($exception->getMessage());
         }
+
+        # 顯示縮圖
+        # Storage::files('public/2022-09-01/3QcqQhejNOpvTJTZ/origin/')
+        # return [ 'public/2022-09-01/3QcqQhejNOpvTJTZ/origin/abc.jpg' ]
+        $storageThumbnails =  Storage::files($this->filePath . '/thumbnails');
+
+        # 轉換成 public 路徑
+        $publicThumbnails = [];
+        foreach($storageThumbnails as $filename) {
+            # 把 'public/2022-09-01/3QcqQhejNOpvTJTZ/origin/abc.jpg'
+            # 轉成 '/storage/2022-09-01/3QcqQhejNOpvTJTZ/origin/abc.jpg'
+            $publicThumbnails[] = Storage::url($filename);
+        }
+
+        return view('photos.show', [
+            'thumbnails' => $publicThumbnails,
+        ]);
     }
 }
