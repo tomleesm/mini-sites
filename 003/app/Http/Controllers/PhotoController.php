@@ -10,10 +10,11 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
 use Illuminate\Support\Facades\Storage;
+use App\Jobs\DeleteImages;
 
 class PhotoController extends Controller
 {
-    # 儲存檔案到類似 storage/app/2022-08-28/x9wyHUII5Jlsulnb/
+    # 儲存檔案到類似 storage/app/public/2022-08-28/x9wyHUII5Jlsulnb/
     private $filePath;
 
     public function __construct() {
@@ -54,6 +55,9 @@ class PhotoController extends Controller
         } catch (ProcessFailedException $exception) {
             Log::error($exception->getMessage());
         }
+
+        # 30 分鐘後刪除圖片
+        DeleteImages::dispatch($this->filePath)->delay(now()->addMinutes(30));
 
         # 顯示縮圖
         # Storage::files('public/2022-09-01/3QcqQhejNOpvTJTZ/origin/')
