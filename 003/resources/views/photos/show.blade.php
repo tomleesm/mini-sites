@@ -9,4 +9,5 @@
        <img src="{{ $thumbnail }}">
    @endforeach
 </body>
+    <script src="{{ mix('/js/app.js') }}"></script>
 </html>
