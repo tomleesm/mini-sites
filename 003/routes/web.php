@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Http\Request;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,3 +14,4 @@
 */
 
 Route::view('/', 'photos.upload');
+Route::post('photos', 'PhotoController@store')->name('photos.store');
