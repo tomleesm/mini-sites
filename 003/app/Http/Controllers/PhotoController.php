@@ -14,28 +14,24 @@ use App\Jobs\DeleteImages;
 
 class PhotoController extends Controller
 {
-    # 儲存檔案到類似 storage/app/public/2022-08-28/x9wyHUII5Jlsulnb/
-    private $filePath;
-
-    public function __construct() {
-        $this->filePath = sprintf('public/%s/%s/', today()->toDateString(), Str::random());
-    }
-
     public function store(Request $request) {
         $files = $request->file('uploadPhotos');
 
         # 儲存原圖
+        # 儲存檔案到類似 storage/app/public/2022-08-28/x9wyHUII5Jlsulnb/
+        $filePath = sprintf('public/%s/%s/', today()->toDateString(), Str::random());;
+
         foreach($files as $file) {
             if($request->hasFile('uploadPhotos') && $file->isValid()) {
-                $file->store($this->filePath . 'origin');
+                $file->store($filePath . 'origin');
             } else {
                 Log::error('無法儲存檔案');
             }
         }
 
         # 產生縮圖
-        $thumbnailPath = storage_path('app/' . $this->filePath . 'thumbnails');
-        $originPath = storage_path('app/' . $this->filePath . 'origin');
+        $thumbnailPath = storage_path('app/' . $filePath . 'thumbnails');
+        $originPath = storage_path('app/' . $filePath . 'origin');
 
         $mkdir = new Process(['mkdir', '-p', $thumbnailPath]);
         $generateThumbnails = new Process([
@@ -58,14 +54,20 @@ class PhotoController extends Controller
 
         # 30 分鐘後刪除圖片
         $runQueueTime = now('Asia/Taipei')->addMinutes(30);
-        DeleteImages::dispatch($this->filePath)->delay($runQueueTime);
+        DeleteImages::dispatch($filePath)->delay($runQueueTime);
         session([ 'runQueueTime' => $runQueueTime->format('Y-m-d H:i:s') ]);
+        session([ 'filePath' => $filePath ]);
 
+        return redirect()->route('photos.show');
+    }
+
+    public function show()
+    {
         # 顯示縮圖
         # Storage::files('public/2022-09-01/3QcqQhejNOpvTJTZ/origin/')
         # return [ 'public/2022-09-01/3QcqQhejNOpvTJTZ/origin/abc.jpg' ]
-        $storageThumbnails =  Storage::files($this->filePath . '/thumbnails');
-        $storageOrigin =  Storage::files($this->filePath . '/origin');
+        $storageThumbnails =  Storage::files(session('filePath') . '/thumbnails');
+        $storageOrigin =  Storage::files(session('filePath') . '/origin');
 
         # 1. 轉換成 public 路徑
         # 用 Storage::url() 把 'public/2022-09-01/3QcqQhejNOpvTJTZ/origin/abc.jpg'
@@ -88,10 +90,6 @@ class PhotoController extends Controller
         return view('photos.show', [
             'images' => $images,
         ]);
-    }
-
-    public function show()
-    {
 
     }
 }

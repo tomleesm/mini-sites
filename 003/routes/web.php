@@ -15,3 +15,4 @@ use Illuminate\Http\Request;
 
 Route::view('/', 'photos.upload');
 Route::post('photos', 'PhotoController@store')->name('photos.store');
+Route::get('photos', 'PhotoController@show')->name('photos.show');
