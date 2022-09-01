@@ -5,7 +5,7 @@
     <title>003 相簿</title>
 </head>
 <body>
-    <h3>圖片將在 {{ $runQueueTime->format('Y-m-d H:i:s') }} 刪除</h3>
+    <h3>圖片將在 {{ session('runQueueTime') }} 刪除</h3>
    @foreach($images as $image)
        <a data-fslightbox="gallery" href="{{ $image['origin'] }}">
            <img src="{{ $image['thumbnail'] }}">
