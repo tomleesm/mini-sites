@@ -57,7 +57,8 @@ class PhotoController extends Controller
         }
 
         # 30 分鐘後刪除圖片
-        DeleteImages::dispatch($this->filePath)->delay(now()->addMinutes(30));
+        $runQueueTime = now('Asia/Taipei')->addMinutes(30);
+        DeleteImages::dispatch($this->filePath)->delay($runQueueTime);
 
         # 顯示縮圖
         # Storage::files('public/2022-09-01/3QcqQhejNOpvTJTZ/origin/')
@@ -84,6 +85,7 @@ class PhotoController extends Controller
         }
 
         return view('photos.show', [
+            'runQueueTime' => $runQueueTime,
             'images' => $images,
         ]);
     }
