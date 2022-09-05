@@ -13,3 +13,5 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+# 測試播放器用的影片檔
+/public/*.mp4
