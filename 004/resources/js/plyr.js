@@ -1,3 +1,3 @@
 import Plyr from 'plyr';
 
-const plyr = new Plyr('#player');
+const player = new Plyr('#player');
