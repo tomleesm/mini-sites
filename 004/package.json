@@ -18,5 +18,9 @@
         "sass": "^1.15.2",
         "sass-loader": "^8.0.0",
         "vue-template-compiler": "^2.7.10"
+    },
+    "dependencies": {
+        "hls.js": "^1.2.1",
+        "plyr": "^3.7.2"
     }
 }
