@@ -1,4 +1,3 @@
-# demo 網站清單
+# 迷你網站主題
 
-* [001 待辦事項清單](http://20.38.4.162:8001/)
-* [002 文章清單](http://20.38.4.162:8002/)：使用了假資料來展示，所有作者的密碼都是 12345678
+[迷你網站主題](https://docs.google.com/spreadsheets/d/1ISsRRTcwwQH48vDGM9vRvgKZUW_daaeNrBM6JA0TkRY/edit?usp=sharing)放在 Google 試算表中
