@@ -27,8 +27,6 @@
 
       ws.onopen = function() {
         console.log("Connection open");
-
-        ws.send('Tom');
       }
       ws.onmessage = function(event) {
         console.log( "Received message from server: " + event.data);
@@ -36,6 +34,17 @@
       ws.onclose = function() {
         console.log("Connection closed.");
       };
+
+      var form = document.getElementById('form');
+      var input = document.getElementById('input');
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (input.value) {
+          ws.send(input.value);
+          input.value = '';
+        }
+      });
     </script>
 </body>
 </html>
