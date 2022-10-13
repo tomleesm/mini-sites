@@ -48,6 +48,12 @@
         e.preventDefault();
         if (input.value) {
           ws.send(input.value);
+
+          var item = document.createElement('li');
+          item.textContent = input.value;
+          messages.appendChild(item);
+          window.scrollTo(0, document.body.scrollHeight);
+
           input.value = '';
         }
       });
