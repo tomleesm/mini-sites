@@ -22,6 +22,7 @@
       <input id="input" autocomplete="off" /><button>Send</button>
     </form>
 
+    <script src="{{ mix('js/app.js') }}"></script>
     <script>
       var ws = new WebSocket('ws://192.168.56.10:8080');
 
