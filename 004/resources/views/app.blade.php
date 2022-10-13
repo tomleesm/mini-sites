@@ -25,18 +25,24 @@
     <script>
       var ws = new WebSocket('ws://192.168.56.10:8080');
 
+      var form = document.getElementById('form');
+      var input = document.getElementById('input');
+      var messages = document.getElementById('messages');
+
       ws.onopen = function() {
         console.log("Connection open");
       }
       ws.onmessage = function(event) {
         console.log( "Received message from server: " + event.data);
+
+        var item = document.createElement('li');
+        item.textContent = event.data;
+        messages.appendChild(item);
+        window.scrollTo(0, document.body.scrollHeight);
       };
       ws.onclose = function() {
         console.log("Connection closed.");
       };
-
-      var form = document.getElementById('form');
-      var input = document.getElementById('input');
 
       form.addEventListener('submit', function(e) {
         e.preventDefault();
