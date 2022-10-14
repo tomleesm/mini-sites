@@ -24,7 +24,8 @@
 
     <script src="{{ mix('js/app.js') }}"></script>
     <script>
-      var ws = new WebSocket('ws://192.168.56.10:8080');
+      const websocketURL = 'ws://' + window.location.hostname + ':8080';
+      var ws = new WebSocket(websocketURL);
 
       const ChatRoom = {
           // 輸入訊息的表單
