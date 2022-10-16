@@ -7,6 +7,7 @@
     @else
     <form id="form" action="">
         <input id="input" autocomplete="off" /><button>Send</button>
+        <input id="user_id" type="hidden" value="{{ $user->id }}" />
     </form>
     @endguest
 @endsection
