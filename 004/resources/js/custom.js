@@ -7,7 +7,9 @@ const ChatRoom = {
     // 輸入訊息的 input
     input: document.getElementById('input'),
     // 聊天室訊息
-    messages: document.getElementById('messages')
+    messages: document.getElementById('messages'),
+    // 目前登入的使用者 id
+    id: document.getElementById('user_id')
 };
 ChatRoom.addMessage = function(message) {
     // 把訊息加到聊天室結尾
@@ -21,7 +23,12 @@ ChatRoom.submitMessage = function() {
     this.form.addEventListener('submit', function(e) {
         e.preventDefault();
         if (this.input.value) {
-            ws.send(this.input.value);
+            const data = {
+                userId: document.getElementById('user_id').value,
+                message: this.input.value
+            };
+            console.log(data)
+            ws.send(JSON.stringify(data));
 
             ChatRoom.addMessage(this.input.value);
 

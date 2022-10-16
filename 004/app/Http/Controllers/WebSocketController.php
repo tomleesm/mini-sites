@@ -23,16 +23,18 @@ class WebSocketController extends Controller implements MessageComponentInterfac
         echo "New connection! ({$conn->resourceId})\n";
     }
 
-    public function onMessage(ConnectionInterface $from, $msg) {
+    public function onMessage(ConnectionInterface $from, $jsonString) {
+        $json = json_decode($jsonString);
         // 去除輸入的訊息結尾的換行符號
-        $message = str_replace("\r\n", "", $msg);
+        $message = str_replace("\r\n", "", $json->message);
         $numRecv = count($this->clients) - 1;
         echo sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n"
             , $from->resourceId, $message, $numRecv, $numRecv == 1 ? '' : 's');
 
-        DB::transaction(function() use ($message) {
+        $userId = $json->userId;
+        DB::transaction(function() use ($userId, $message) {
             Message::create([
-                'user_id' => 1,
+                'user_id' => $userId,
                 'content' => $message
             ]);
         });
