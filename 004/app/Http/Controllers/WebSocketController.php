@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
+use App\Message;
+use Illuminate\Support\Facades\DB;
 
 class WebSocketController extends Controller implements MessageComponentInterface
 {
@@ -27,6 +29,13 @@ class WebSocketController extends Controller implements MessageComponentInterfac
         $numRecv = count($this->clients) - 1;
         echo sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n"
             , $from->resourceId, $message, $numRecv, $numRecv == 1 ? '' : 's');
+
+        DB::transaction(function() use ($message) {
+            Message::create([
+                'user_id' => 1,
+                'content' => $message
+            ]);
+        });
 
         foreach ($this->clients as $client) {
             if ($from !== $client) {
