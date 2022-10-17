@@ -1,7 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-    <ul id="messages"></ul>
+    <ul id="messages">
+    @foreach($messages as $message)
+        <li>{{ $message->name }} says: {{ $message->content }}</li>
+    @endforeach
+    </ul>
     @guest
         <p id="join-message">{{ __('Login') }} or {{ __('Register') }} to Join</p>
     @else
