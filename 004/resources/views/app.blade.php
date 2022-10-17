@@ -1,24 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
-    <script>
-      var ws = new WebSocket('ws://192.168.56.10:8080');
+@extends('layouts.app')
 
-      ws.onopen = function() {
-        console.log("Connection open");
-
-        ws.send('Tom');
-      }
-      ws.onmessage = function(event) {
-        console.log( "Received message from server: " + event.data);
-      };
-      ws.onclose = function() {
-        console.log("Connection closed.");
-      };
-    </script>
-</body>
-</html>
+@section('content')
+    <ul id="messages">
+    @foreach($messages as $message)
+        <li>{{ $message->name }} says: {{ $message->content }}</li>
+    @endforeach
+    </ul>
+    @guest
+        <p id="join-message">{{ __('Login') }} or {{ __('Register') }} to Join</p>
+    @else
+    <form id="form" action="">
+        <input id="input" autocomplete="off" /><button>Send</button>
+        <input id="user_id" type="hidden" value="{{ $user->id }}" />
+        <input id="username" type="hidden" value="{{ $user->name }}" />
+    </form>
+    @endguest
+@endsection

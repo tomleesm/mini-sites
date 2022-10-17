@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
+use App\Message;
+use Illuminate\Support\Facades\DB;
 
 class WebSocketController extends Controller implements MessageComponentInterface
 {
@@ -21,17 +23,26 @@ class WebSocketController extends Controller implements MessageComponentInterfac
         echo "New connection! ({$conn->resourceId})\n";
     }
 
-    public function onMessage(ConnectionInterface $from, $msg) {
+    public function onMessage(ConnectionInterface $from, $jsonString) {
+        $json = json_decode($jsonString);
         // 去除輸入的訊息結尾的換行符號
-        $message = str_replace("\r\n", "", $msg);
+        $message = str_replace("\r\n", "", $json->content);
         $numRecv = count($this->clients) - 1;
         echo sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n"
             , $from->resourceId, $message, $numRecv, $numRecv == 1 ? '' : 's');
 
+        $userId = $json->userId;
+        DB::transaction(function() use ($userId, $message) {
+            Message::create([
+                'user_id' => $userId,
+                'content' => $message
+            ]);
+        });
+
         foreach ($this->clients as $client) {
             if ($from !== $client) {
                 // The sender is not the receiver, send to each client connected
-                $client->send($message);
+                $client->send($jsonString);
             }
         }
     }
