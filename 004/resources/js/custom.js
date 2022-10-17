@@ -9,12 +9,13 @@ const ChatRoom = {
     // 聊天室訊息
     messages: document.getElementById('messages'),
     // 目前登入的使用者 id
-    id: document.getElementById('user_id')
+    id: document.getElementById('user_id'),
+    username: document.getElementById('user_id')
 };
 ChatRoom.addMessage = function(message) {
     // 把訊息加到聊天室結尾
     var item = document.createElement('li');
-    item.textContent = message;
+    item.textContent = message.username + ' says: ' + message.content;
     this.messages.appendChild(item);
     // 視窗捲軸最底下
     window.scrollTo(0, document.body.scrollHeight);
@@ -25,12 +26,16 @@ ChatRoom.submitMessage = function() {
         if (this.input.value) {
             const data = {
                 userId: document.getElementById('user_id').value,
-                message: this.input.value
+                username: this.username.value,
+                content: this.input.value
             };
-            console.log(data)
             ws.send(JSON.stringify(data));
 
-            ChatRoom.addMessage(this.input.value);
+            const message = {
+                username: this.username.value,
+                content: this.input.value
+            };
+            ChatRoom.addMessage(message);
 
             this.input.value = '';
         }
@@ -43,9 +48,10 @@ ws.onopen = function() {
     console.log("Connection open");
 }
 ws.onmessage = function(event) {
-    console.log( "Received message from server: " + event.data);
+    const message = JSON.parse(event.data);
+    console.log( "Received message from server: " + message.content);
 
-    ChatRoom.addMessage(event.data);
+    ChatRoom.addMessage(message);
 };
 ws.onclose = function() {
     console.log("Connection closed.");

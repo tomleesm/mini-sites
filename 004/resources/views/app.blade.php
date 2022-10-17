@@ -12,6 +12,7 @@
     <form id="form" action="">
         <input id="input" autocomplete="off" /><button>Send</button>
         <input id="user_id" type="hidden" value="{{ $user->id }}" />
+        <input id="username" type="hidden" value="{{ $user->name }}" />
     </form>
     @endguest
 @endsection
